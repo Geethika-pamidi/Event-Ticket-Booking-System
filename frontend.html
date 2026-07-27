@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventify - Premium Ticketing System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #ec4899;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #f43f5e;
+            --success: #10b981;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        /* Attractive Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Action Buttons */
+        button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: transform 0.1s, opacity 0.2s;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        button:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .btn-cancel {
+            background: rgba(244, 63, 94, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            width: auto;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            box-shadow: none;
+        }
+
+        .btn-cancel:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Event Cards Grid */
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .event-item {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .event-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .event-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .event-date {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        /* Queue List Items */
+        .queue-item {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .queue-info strong {
+            color: white;
+            font-size: 1.05rem;
+        }
+
+        .queue-info small {
+            color: var(--text-muted);
+            display: block;
+            margin-top: 4px;
+        }
+
+        .empty-text {
+            color: var(--text-muted);
+            text-align: center;
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🎟️ Eventify System</h1>
+        <p>Experience seamless ticket bookings and live queue management.</p>
+    </header>
+
+    <!-- SECTION 1: AVAILABLE EVENTS -->
+    <div class="card">
+        <h2>🔥 Trending Events</h2>
+        <div id="eventList" class="event-grid"></div>
+    </div>
+
+    <!-- SECTION 2: BOOK TICKET -->
+    <div class="card">
+        <h2>🛒 Secure Your Ticket</h2>
+        <div class="form-grid">
+            <div class="form-group full">
+                <label>Select Event</label>
+                <select id="eventSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Your Full Name</label>
+                <input type="text" id="custName" placeholder="e.g. Alex Smith">
+            </div>
+            <div class="form-group">
+                <label>Ticket Tier</label>
+                <select id="ticketType">
+                    <option value="Regular">Regular</option>
+                    <option value="VIP">VIP (Priority Queue)</option>
+                </select>
+            </div>
+            <div class="form-group full" style="margin-top: 10px;">
+                <button onclick="bookTicket()">Confirm & Book Ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: BOOKING QUEUE & CANCELLATION -->
+    <div class="card">
+        <h2>👥 Active Bookings & Queue</h2>
+        <div id="queueList">
+            <p class="empty-text">No active bookings found.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 4: ADMIN - ADD EVENT -->
+    <div class="card">
+        <h2>⚙️ Admin Console: Publish Event</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Event Name</label>
+                <input type="text" id="adminName" placeholder="e.g. Music Festival">
+            </div>
+            <div class="form-group">
+                <label>Event Date</label>
+                <input type="date" id="adminDate">
+            </div>
+            <div class="form-group full">
+                <label>Total Available Seats</label>
+                <input type="number" id="adminSeats" placeholder="e.g. 50">
+            </div>
+            <div class="form-group full" style="margin-top: 10px;">
+                <button onclick="addEvent()">Publish Event to System</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let events = JSON.parse(localStorage.getItem('events')) || [
+        { id: 101, name: "Rock Music Concert", date: "2023-12-25", seats: 12 },
+        { id: 102, name: "Tech Innovation Summit", date: "2024-01-15", seats: 8 }
+    ];
+
+    let queue = JSON.parse(localStorage.getItem('queue')) || [];
+
+    function updateStorage() {
+        localStorage.setItem('events', JSON.stringify(events));
+        localStorage.setItem('queue', JSON.stringify(queue));
+        render();
+    }
+
+    function render() {
+        let eventHTML = "";
+        let selectHTML = "";
+        events.forEach(e => {
+            eventHTML += `
+                <div class="event-item">
+                    <div>
+                        <div class="event-title">${e.name}</div>
+                        <div class="event-date">📅 ${e.date}</div>
+                    </div>
+                    <div>
+                        <span class="badge">Seats Left: ${e.seats}</span>
+                    </div>
+                </div>`;
+            selectHTML += `<option value="${e.id}">${e.name} (Seats Left: ${e.seats})</option>`;
+        });
+        document.getElementById('eventList').innerHTML = eventHTML;
+        document.getElementById('eventSelect').innerHTML = selectHTML;
+
+        let queueHTML = "";
+        if (queue.length === 0) {
+            queueHTML = `<p class="empty-text">No active bookings in queue.</p>`;
+        } else {
+            queue.forEach((q, index) => {
+                let eventObj = events.find(e => e.id === q.eventId);
+                let eventName = eventObj ? eventObj.name : "Unknown Event";
+                
+                queueHTML += `
+                    <div class="queue-item">
+                        <div class="queue-info">
+                            <strong>#${index + 1} &bull; ${q.name}</strong>
+                            <small>Event: ${eventName} &nbsp;|&nbsp; Tier: <span style="color:#a855f7; font-weight:600;">${q.type}</span></small>
+                        </div>
+                        <button class="btn-cancel" onclick="cancelBooking(${index})">Cancel Ticket</button>
+                    </div>`;
+            });
+        }
+        document.getElementById('queueList').innerHTML = queueHTML;
+    }
+
+    function bookTicket() {
+        let eventId = parseInt(document.getElementById('eventSelect').value);
+        let name = document.getElementById('custName').value.trim();
+        let type = document.getElementById('ticketType').value;
+
+        if (!name) {
+            alert("Please enter your name!");
+            return;
+        }
+
+        let event = events.find(e => e.id === eventId);
+        if (event.seats <= 0) {
+            alert("Sorry, this event is Sold Out!");
+            return;
+        }
+
+        event.seats--;
+
+        let booking = { name, eventId, type };
+        if (type === "VIP") {
+            queue.unshift(booking);
+        } else {
+            queue.push(booking);
+        }
+
+        document.getElementById('custName').value = "";
+        alert("Ticket booked successfully!");
+        updateStorage();
+    }
+
+    function cancelBooking(index) {
+        let booking = queue[index];
+        let event = events.find(e => e.id === booking.eventId);
+        if (event) {
+            event.seats++;
+        }
+
+        queue.splice(index, 1);
+        alert(`Ticket for ${booking.name} has been cancelled. Seat restored!`);
+        updateStorage();
+    }
+
+    function addEvent() {
+        let name = document.getElementById('adminName').value.trim();
+        let date = document.getElementById('adminDate').value;
+        let seats = parseInt(document.getElementById('adminSeats').value);
+
+        if (!name || !date || !seats) {
+            alert("Please fill all fields!");
+            return;
+        }
+
+        let newEvent = { id: events.length + Math.floor(Math.random()*100), name, date, seats };
+        events.push(newEvent);
+
+        document.getElementById('adminName').value = "";
+        document.getElementById('adminDate').value = "";
+        document.getElementById('adminSeats').value = "";
+
+        alert("Event successfully published!");
+        updateStorage();
+    }
+
+    render();
+</script>
+
+</body>
+</html>
